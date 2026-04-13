@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer"
+const nodemailer = require("nodemailer")
 
 const allowedOrigins = [
   "https://dgpremiumtransport.com",
@@ -60,7 +60,7 @@ module.exports = async function handler(req, res) {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 465),
-      secure: true,
+      secure: Number(process.env.SMTP_PORT || 465) === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -71,7 +71,7 @@ module.exports = async function handler(req, res) {
       from: process.env.SMTP_FROM,
       to: process.env.CONTACT_TO,
       replyTo: email,
-      subject: `New quote request from DG Premium Transport Group`,
+      subject: "New quote request from DG Premium Transport Group",
       text: `
 Name: ${name}
 Email: ${email}
@@ -100,7 +100,7 @@ ${message}
 
     return res.status(200).json({ ok: true })
   } catch (error) {
-    console.error("CONTACT API ERROR:", error)
+    console.error("DG CONTACT API ERROR:", error)
     return res.status(500).json({
       ok: false,
       error: "Internal server error",
