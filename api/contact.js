@@ -1,18 +1,7 @@
 const nodemailer = require("nodemailer")
 
-const allowedOrigins = [
-  "https://dgpremiumtransport.com",
-  "https://www.dgpremiumtransport.com",
-  "https://dgpremium.framer.website",
-]
-
 module.exports = async function handler(req, res) {
-  const origin = req.headers.origin
-
-  if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin)
-  }
-
+  res.setHeader("Access-Control-Allow-Origin", "*")
   res.setHeader("Vary", "Origin")
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
   res.setHeader("Access-Control-Allow-Headers", "Content-Type")
